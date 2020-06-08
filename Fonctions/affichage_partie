@@ -1,0 +1,253 @@
+void affichage_partie(int choix, Joueur *joueur, Contrat *contrat)
+{
+    int compteur_passe = 0;
+    type_contrat meilleur_contrat;
+    int meilleur_score_mini = 0;
+    int nb_contrat_annonce = 0;
+
+    int score_mini = 0;
+
+    int contrat_tmp;
+    if(compteur % 4 == 0){
+        printf("\nVous choisissez ! Quel contrat lancez-vous ? Tapez 0 pour passer, 1 pour miser, 2 pour capot ou 3 pour generale\n");
+        do{
+            scanf("%d", &contrat_tmp);
+        }
+        while(contrat_tmp < 0 && contrat_tmp > 3);
+
+    switch(contrat_tmp){
+        case 0 :
+            compteur_passe++;
+            meilleur_contrat = PASSE;
+            score_mini = 0;
+            meilleur_score_mini = score_mini;
+            strcpy(contrat->affichage, "Passe\0");
+            printf("Vous passez !\n");
+            break;
+        case 1 :
+            printf("Vous misez ! Valeur a miser : ");
+            do{
+            scanf("%d", &score_mini);
+            }while(score_mini < 80 && score_mini > 160);
+            meilleur_score_mini = score_mini;
+            printf("Vous misez %d points\n", meilleur_score_mini);
+            meilleur_contrat = MISE;
+            strcpy(contrat->affichage, "Mise\0");
+            nb_contrat_annonce++;
+            break;
+        case 2 :
+            meilleur_contrat = CAPOT;
+            printf("Vous pariez que vous faites capot ! 250 points mis en jeu\n");
+            score_mini = 250;
+            meilleur_score_mini = score_mini;
+            strcpy(contrat->affichage, "Capot\0");
+            nb_contrat_annonce++;
+            break;
+        case 3 :
+            meilleur_contrat = GENERAL;
+            printf("Vous pariez que vous faites une Generale ! 500 points mis en jeu\n");
+            score_mini = 500;
+            meilleur_score_mini = score_mini;
+            strcpy(contrat->affichage, "General\0");
+            nb_contrat_annonce++;
+            break;
+    }
+if(contrat_tmp != 0){
+    printf("A quel atout voulez-vous prendre ? Pressez 0 pour ♠, 1 pour ♣, 2 pour ♥, 3 pour ♦, 4 pour ♠ ♣ ♥ ♦, 5 pour sans atout\n");
+    scanf("%d", &contrat->atout);
+        switch (contrat->atout)
+        {
+        case 0:
+            strcat(contrat->affichage, " ♠");
+            break;
+        case 1:
+            strcat(contrat->affichage, " ♣");
+            break;
+        case 2:
+            strcat(contrat->affichage, " ♥");
+            break;
+        case 3:
+            strcat(contrat->affichage, " ♦");
+            break;
+        case 4:
+            strcat(contrat->affichage, " ♠ ♣ ♥ ♦");
+            break;
+        case 5:
+            strcat(contrat->affichage, " *");
+            break;
+        }
+    }
+    printf("Vous posez donc un contrat de type %s a %d pts.\n", contrat->affichage, meilleur_score_mini);
+
+    int i, j, k;
+    int nb_carte_pique[4];
+    int nb_carte_coeur[4];
+    int nb_carte_carreau[4];
+    int nb_carte_trefle[4];
+
+    int fort_pique = 0;
+    int fort_coeur = 0;
+    int fort_carreau = 0;
+    int fort_trefle = 0;
+    int atout_bot[4];
+
+    for(i = 1; i<4; i++){
+    printf("%s réfléchi à une surenchere...\n", joueur[i].nom);
+        for(j = 0; j<8; j++){
+            if(strncmp(joueur[i].carte[j].affichage, "♠", strlen(joueur[i].carte[j].affichage) - 1) == 0){
+                nb_carte_pique[i]++;
+            }else if(strncmp(joueur[i].carte[j].affichage, "♣", strlen(joueur[i].carte[j].affichage) - 1) == 0){
+                nb_carte_trefle[i]++;
+            }else if(strncmp(joueur[i].carte[j].affichage, "♥", strlen(joueur[i].carte[j].affichage) - 1) == 0){
+                nb_carte_coeur[i]++;
+            }else if(strncmp(joueur[i].carte[j].affichage, "♦", strlen(joueur[i].carte[j].affichage) - 1) == 0){
+                nb_carte_carreau[i]++;
+            }
+        }
+
+        if(nb_carte_pique[i] > nb_carte_coeur[i]){
+                nb_carte_coeur[i] = 0;
+                }else if(nb_carte_coeur[i] > nb_carte_carreau[i]){
+                nb_carte_pique[i] = 0;
+                nb_carte_carreau[i] = 0;
+                }else if(nb_carte_carreau[i] > nb_carte_trefle[i]){
+                nb_carte_trefle[i] = 0;
+                nb_carte_coeur[i] = 0;
+                }else{
+                nb_carte_carreau[i] = 0;
+                }
+
+            for(k = 0; k<8; k++){
+                if(nb_carte_pique[i] != 0){
+                     if(strcmp(joueur[i].carte[j].affichage, "V♠") == 0 || strcmp(joueur[i].carte[j].affichage, "9♠") == 0 || strcmp(joueur[i].carte[j].affichage, "A♠") == 0 || strcmp(joueur[i].carte[j].affichage, "10♠") == 0){
+                        fort_pique++;
+                        atout_bot[i] = fort_pique;
+                        }
+                }else if(nb_carte_coeur[i] != 0){
+                     if(strcmp(joueur[i].carte[j].affichage, "V♥") == 0 || strcmp(joueur[i].carte[j].affichage, "9♥") == 0 || strcmp(joueur[i].carte[j].affichage, "A♥") == 0 || strcmp(joueur[i].carte[j].affichage, "10♥") == 0){
+                        fort_coeur++;
+                        atout_bot[i] = fort_coeur;
+                     }
+                }else if(nb_carte_carreau[i] != 0){
+                     if(strcmp(joueur[i].carte[j].affichage, "V♦") == 0 || strcmp(joueur[i].carte[j].affichage, "9♦") == 0 || strcmp(joueur[i].carte[j].affichage, "A♦") == 0 || strcmp(joueur[i].carte[j].affichage, "10♦") == 0){
+                        fort_carreau++;
+                        atout_bot[i] = fort_carreau;
+                     }
+                }else if(nb_carte_trefle[i] != 0){
+                     if(strcmp(joueur[i].carte[j].affichage, "V♣") == 0 || strcmp(joueur[i].carte[j].affichage, "9♣") == 0 || strcmp(joueur[i].carte[j].affichage, "A♣") == 0 || strcmp(joueur[i].carte[j].affichage, "10♣") == 0){
+                        fort_trefle++;
+                        atout_bot[i] = fort_trefle;
+                     }
+                }
+            }
+            if(atout_bot[i] == 3 && meilleur_contrat < MISE){
+                meilleur_contrat = MISE;
+                meilleur_score_mini = 80;
+                strcpy(contrat->affichage, "Mise\0");
+                nb_contrat_annonce++;
+                printf("%s mise %d\n", joueur[i].nom, meilleur_score_mini);
+            }else if(atout_bot[i] == 8 && meilleur_contrat < GENERAL){
+                meilleur_contrat = GENERAL;
+                meilleur_score_mini = 500;
+                strcpy(contrat->affichage, "General\0");
+                nb_contrat_annonce++;
+                printf("%s mise %d\n", joueur[i].nom, meilleur_score_mini);
+            }else if(atout_bot[i] > 3 && atout_bot[i] < 8 && meilleur_score_mini < 120){
+                meilleur_contrat = MISE;
+                meilleur_score_mini = 120;
+                strcpy(contrat->affichage, "Mise\0");
+                nb_contrat_annonce++;
+                printf("%s mise %d\n", joueur[i].nom, meilleur_score_mini);
+            }else{
+            printf("%s passe !\n", joueur[i].nom);
+            printf("%d\n", atout_bot[i]);
+            compteur_passe++;
+            }
+        }
+    }else if(compteur % 4 == 1){
+        int i, j, k;
+    int nb_carte_pique[4];
+    int nb_carte_coeur[4];
+    int nb_carte_carreau[4];
+    int nb_carte_trefle[4];
+
+    int fort_pique = 0;
+    int fort_coeur = 0;
+    int fort_carreau = 0;
+    int fort_trefle = 0;
+    int atout_bot[4];
+
+    for(i = 1; i<4; i++){
+    printf("%s réfléchi à une surenchere...\n", joueur[i].nom);
+        for(j = 0; j<8; j++){
+            if(strncmp(joueur[i].carte[j].affichage, "♠", strlen(joueur[i].carte[j].affichage) - 1) == 0){
+                nb_carte_pique[j]++;
+            }else if(strncmp(joueur[i].carte[j].affichage, "♣", strlen(joueur[i].carte[j].affichage) - 1) == 0){
+                nb_carte_trefle[j]++;
+            }else if(strncmp(joueur[i].carte[j].affichage, "♥", strlen(joueur[i].carte[j].affichage) - 1) == 0){
+                nb_carte_coeur[j]++;
+            }else if(strncmp(joueur[i].carte[j].affichage, "♦", strlen(joueur[i].carte[j].affichage) - 1) == 0){
+                nb_carte_carreau[j]++;
+            }
+        }
+
+        if(nb_carte_pique[j] > nb_carte_coeur[j]){
+                nb_carte_coeur[j] = 0;
+                }else if(nb_carte_coeur[j] > nb_carte_carreau[j]){
+                nb_carte_pique[j] = 0;
+                nb_carte_carreau[j] = 0;
+                }else if(nb_carte_carreau[j] > nb_carte_trefle[j]){
+                nb_carte_trefle[j] = 0;
+                nb_carte_coeur[j] = 0;
+                }else{
+                nb_carte_carreau[j] = 0;
+                }
+
+            for(k = 0; k<8; k++){
+                if(nb_carte_pique[j] != 0){
+                     if(strcmp(joueur[i].carte[j].affichage, "V♠") == 0 || strcmp(joueur[i].carte[j].affichage, "9♠") == 0 || strcmp(joueur[i].carte[j].affichage, "A♠") == 0 || strcmp(joueur[i].carte[j].affichage, "10♠") == 0){
+                        fort_pique++;
+                        atout_bot[i] = fort_pique;
+                        }
+                }else if(nb_carte_coeur[j] != 0){
+                     if(strcmp(joueur[i].carte[j].affichage, "V♥") == 0 || strcmp(joueur[i].carte[j].affichage, "9♥") == 0 || strcmp(joueur[i].carte[j].affichage, "A♥") == 0 || strcmp(joueur[i].carte[j].affichage, "10♥") == 0){
+                        fort_coeur++;
+                        atout_bot[i] = fort_coeur;
+                     }
+                }else if(nb_carte_carreau[j] != 0){
+                     if(strcmp(joueur[i].carte[j].affichage, "V♦") == 0 || strcmp(joueur[i].carte[j].affichage, "9♦") == 0 || strcmp(joueur[i].carte[j].affichage, "A♦") == 0 || strcmp(joueur[i].carte[j].affichage, "10♦") == 0){
+                        fort_carreau++;
+                        atout_bot[i] = fort_carreau;
+                     }
+                }else if(nb_carte_trefle[j] != 0){
+                     if(strcmp(joueur[i].carte[j].affichage, "V♣") == 0 || strcmp(joueur[i].carte[j].affichage, "9♣") == 0 || strcmp(joueur[i].carte[j].affichage, "A♣") == 0 || strcmp(joueur[i].carte[j].affichage, "10♣") == 0){
+                        fort_trefle++;
+                        atout_bot[i] = fort_trefle;
+                     }
+                }
+            }
+            if(atout_bot[i] == 3 && meilleur_contrat < MISE){
+                meilleur_contrat = MISE;
+                meilleur_score_mini = 80;
+                strcpy(contrat->affichage, "Mise\0");
+                nb_contrat_annonce++;
+                printf("%s mise %d\n", joueur[i].nom, meilleur_score_mini);
+            }else if(atout_bot[i] == 8 && meilleur_contrat < GENERAL){
+                meilleur_contrat = GENERAL;
+                meilleur_score_mini = 500;
+                strcpy(contrat->affichage, "General\0");
+                nb_contrat_annonce++;
+                printf("%s mise %d\n", joueur[i].nom, meilleur_score_mini);
+            }else if(atout_bot[i] > 3 && atout_bot[i] < 8 && meilleur_score_mini < 120){
+                meilleur_contrat = MISE;
+                meilleur_score_mini = 120;
+                strcpy(contrat->affichage, "Mise\0");
+                nb_contrat_annonce++;
+                printf("%s mise %d\n", joueur[i].nom, meilleur_score_mini);
+            }else{
+            printf("%s passe !\n", joueur[i].nom);
+            compteur_passe++;
+            }
+        }
+    }
+}
