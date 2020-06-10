@@ -81,65 +81,124 @@ if(contrat_tmp != 0){
 
     int i, j, k;
     int nb_carte_pique[4];
+        for(int a = 0; a<4; a++){
+            nb_carte_pique[a] = 0;
+        }
     int nb_carte_coeur[4];
+        for(int a = 0; a<4; a++){
+            nb_carte_coeur[a] = 0;
+        }
     int nb_carte_carreau[4];
+        for(int a = 0; a<4; a++){
+            nb_carte_carreau[a] = 0;
+        }
     int nb_carte_trefle[4];
+        for(int a = 0; a<4; a++){
+            nb_carte_trefle[a] = 0;
+        }
 
-    int fort_pique = 0;
+    int trefle;
+    int pique;
+    int coeur;
+    int carreau;
+
+    int fort_pique;
+    int fort_carreau;
+    int fort_coeur;
+    int fort_trefle;
+
+  /*  int fort_pique = 0;
     int fort_coeur = 0;
     int fort_carreau = 0;
-    int fort_trefle = 0;
+    int fort_trefle = 0;    */
     int atout_bot[4];
+        for(int a = 0; a<4; a++){
+            atout_bot[a] = 0;
+        }
 
     for(i = 1; i<4; i++){
+            trefle = 0;
+            pique = 0;
+            coeur = 0;
+            carreau = 0;
+
+            fort_carreau = 0;
+            fort_coeur = 0;
+            fort_pique = 0;
+            fort_trefle = 0;
+
     printf("%s réfléchi à une surenchere...\n", joueur[i].nom);
         for(j = 0; j<8; j++){
-            if(strncmp(joueur[i].carte[j].affichage, "♠", strlen(joueur[i].carte[j].affichage) - 1) == 0){
-                nb_carte_pique[i]++;
-            }else if(strncmp(joueur[i].carte[j].affichage, "♣", strlen(joueur[i].carte[j].affichage) - 1) == 0){
-                nb_carte_trefle[i]++;
-            }else if(strncmp(joueur[i].carte[j].affichage, "♥", strlen(joueur[i].carte[j].affichage) - 1) == 0){
-                nb_carte_coeur[i]++;
-            }else if(strncmp(joueur[i].carte[j].affichage, "♦", strlen(joueur[i].carte[j].affichage) - 1) == 0){
-                nb_carte_carreau[i]++;
+            if(strstr(joueur[i].carte[j].affichage, "♠") != NULL){
+                pique++;
+            }else if(strstr(joueur[i].carte[j].affichage, "♣") != NULL){
+                trefle++;
+            }else if(strstr(joueur[i].carte[j].affichage, "♥") != NULL){
+                coeur++;
+            }else if(strstr(joueur[i].carte[j].affichage, "♦") != NULL){
+               carreau++;
             }
         }
 
-        if(nb_carte_pique[i] > nb_carte_coeur[i]){
-                nb_carte_coeur[i] = 0;
-                }else if(nb_carte_coeur[i] > nb_carte_carreau[i]){
-                nb_carte_pique[i] = 0;
-                nb_carte_carreau[i] = 0;
-                }else if(nb_carte_carreau[i] > nb_carte_trefle[i]){
-                nb_carte_trefle[i] = 0;
-                nb_carte_coeur[i] = 0;
-                }else{
-                nb_carte_carreau[i] = 0;
-                }
+    nb_carte_pique[i] = pique;
+    nb_carte_coeur[i] = coeur;
+    nb_carte_carreau[i] = carreau;
+    nb_carte_trefle[i] = trefle;
+
+        if(nb_carte_pique[i] > nb_carte_coeur[i] && nb_carte_pique[i] > nb_carte_carreau[i] && nb_carte_pique[i] > nb_carte_trefle[i]){
+            nb_carte_coeur[i] = 0;
+            nb_carte_carreau[i] = 0;
+            nb_carte_trefle[i] = 0;
+            }
+        if(nb_carte_coeur[i] > nb_carte_carreau[i] && nb_carte_coeur[i] > nb_carte_pique[i] && nb_carte_coeur[i] > nb_carte_trefle[i]){
+            nb_carte_pique[i] = 0;
+            nb_carte_carreau[i] = 0;
+            nb_carte_trefle[i] = 0;
+            }
+        if(nb_carte_carreau[i] > nb_carte_trefle[i] && nb_carte_carreau[i] > nb_carte_coeur[i] && nb_carte_carreau[i] > nb_carte_pique[i]){
+            nb_carte_trefle[i] = 0;
+            nb_carte_coeur[i] = 0;
+            nb_carte_pique[i] = 0;
+            }
+        if(nb_carte_trefle[i] > nb_carte_carreau[i] && nb_carte_trefle[i] > nb_carte_coeur[i] && nb_carte_trefle[i] > nb_carte_pique[i]){
+            nb_carte_carreau[i] = 0;
+            nb_carte_coeur[i] = 0;
+            nb_carte_pique[i] = 0;
+            }
 
             for(k = 0; k<8; k++){
                 if(nb_carte_pique[i] != 0){
-                     if(strcmp(joueur[i].carte[j].affichage, "V♠") == 0 || strcmp(joueur[i].carte[j].affichage, "9♠") == 0 || strcmp(joueur[i].carte[j].affichage, "A♠") == 0 || strcmp(joueur[i].carte[j].affichage, "10♠") == 0){
+                     if(strcoll(joueur[i].carte[j].affichage, "V♠") == 0 || strcoll(joueur[i].carte[j].affichage, "9♠") == 0 || strcoll(joueur[i].carte[j].affichage, "A♠") == 0 || strcoll(joueur[i].carte[j].affichage, "10♠") == 0){
                         fort_pique++;
-                        atout_bot[i] = fort_pique;
                         }
                 }else if(nb_carte_coeur[i] != 0){
-                     if(strcmp(joueur[i].carte[j].affichage, "V♥") == 0 || strcmp(joueur[i].carte[j].affichage, "9♥") == 0 || strcmp(joueur[i].carte[j].affichage, "A♥") == 0 || strcmp(joueur[i].carte[j].affichage, "10♥") == 0){
+                     if(strstr(joueur[i].carte[j].affichage, "V♥") != NULL || strstr(joueur[i].carte[j].affichage, "9♥") != NULL || strstr(joueur[i].carte[j].affichage, "A♥") != NULL || strstr(joueur[i].carte[j].affichage, "10♥") != NULL){
                         fort_coeur++;
-                        atout_bot[i] = fort_coeur;
-                     }
+                        }
                 }else if(nb_carte_carreau[i] != 0){
-                     if(strcmp(joueur[i].carte[j].affichage, "V♦") == 0 || strcmp(joueur[i].carte[j].affichage, "9♦") == 0 || strcmp(joueur[i].carte[j].affichage, "A♦") == 0 || strcmp(joueur[i].carte[j].affichage, "10♦") == 0){
+                     if(strstr(joueur[i].carte[j].affichage, "V♦") != NULL || strstr(joueur[i].carte[j].affichage, "9♦") != NULL || strstr(joueur[i].carte[j].affichage, "A♦") != NULL || strstr(joueur[i].carte[j].affichage, "10♦") != NULL){
                         fort_carreau++;
-                        atout_bot[i] = fort_carreau;
-                     }
+                        }
                 }else if(nb_carte_trefle[i] != 0){
-                     if(strcmp(joueur[i].carte[j].affichage, "V♣") == 0 || strcmp(joueur[i].carte[j].affichage, "9♣") == 0 || strcmp(joueur[i].carte[j].affichage, "A♣") == 0 || strcmp(joueur[i].carte[j].affichage, "10♣") == 0){
+                     if(strstr(joueur[i].carte[j].affichage, "V♣") != NULL || strstr(joueur[i].carte[j].affichage, "9♣") != NULL || strstr(joueur[i].carte[j].affichage, "A♣") != NULL || strstr(joueur[i].carte[j].affichage, "10♣") != NULL){
                         fort_trefle++;
-                        atout_bot[i] = fort_trefle;
-                     }
+                        }
                 }
             }
+
+            if(fort_pique != 0){
+                            atout_bot[i] = fort_pique;
+                            }
+            if(fort_coeur != 0){
+                            atout_bot[i] = fort_coeur;
+                            }
+            if(fort_carreau != 0){
+                            atout_bot[i] = fort_carreau;
+                            }
+            if(fort_trefle != 0){
+                            atout_bot[i] = fort_trefle;
+                            }
+
             if(atout_bot[i] == 3 && meilleur_contrat < MISE){
                 meilleur_contrat = MISE;
                 meilleur_score_mini = 80;
@@ -165,89 +224,6 @@ if(contrat_tmp != 0){
             }
         }
     }else if(compteur % 4 == 1){
-        int i, j, k;
-    int nb_carte_pique[4];
-    int nb_carte_coeur[4];
-    int nb_carte_carreau[4];
-    int nb_carte_trefle[4];
 
-    int fort_pique = 0;
-    int fort_coeur = 0;
-    int fort_carreau = 0;
-    int fort_trefle = 0;
-    int atout_bot[4];
-
-    for(i = 1; i<4; i++){
-    printf("%s réfléchi à une surenchere...\n", joueur[i].nom);
-        for(j = 0; j<8; j++){
-            if(strncmp(joueur[i].carte[j].affichage, "♠", strlen(joueur[i].carte[j].affichage) - 1) == 0){
-                nb_carte_pique[j]++;
-            }else if(strncmp(joueur[i].carte[j].affichage, "♣", strlen(joueur[i].carte[j].affichage) - 1) == 0){
-                nb_carte_trefle[j]++;
-            }else if(strncmp(joueur[i].carte[j].affichage, "♥", strlen(joueur[i].carte[j].affichage) - 1) == 0){
-                nb_carte_coeur[j]++;
-            }else if(strncmp(joueur[i].carte[j].affichage, "♦", strlen(joueur[i].carte[j].affichage) - 1) == 0){
-                nb_carte_carreau[j]++;
-            }
-        }
-
-        if(nb_carte_pique[j] > nb_carte_coeur[j]){
-                nb_carte_coeur[j] = 0;
-                }else if(nb_carte_coeur[j] > nb_carte_carreau[j]){
-                nb_carte_pique[j] = 0;
-                nb_carte_carreau[j] = 0;
-                }else if(nb_carte_carreau[j] > nb_carte_trefle[j]){
-                nb_carte_trefle[j] = 0;
-                nb_carte_coeur[j] = 0;
-                }else{
-                nb_carte_carreau[j] = 0;
-                }
-
-            for(k = 0; k<8; k++){
-                if(nb_carte_pique[j] != 0){
-                     if(strcmp(joueur[i].carte[j].affichage, "V♠") == 0 || strcmp(joueur[i].carte[j].affichage, "9♠") == 0 || strcmp(joueur[i].carte[j].affichage, "A♠") == 0 || strcmp(joueur[i].carte[j].affichage, "10♠") == 0){
-                        fort_pique++;
-                        atout_bot[i] = fort_pique;
-                        }
-                }else if(nb_carte_coeur[j] != 0){
-                     if(strcmp(joueur[i].carte[j].affichage, "V♥") == 0 || strcmp(joueur[i].carte[j].affichage, "9♥") == 0 || strcmp(joueur[i].carte[j].affichage, "A♥") == 0 || strcmp(joueur[i].carte[j].affichage, "10♥") == 0){
-                        fort_coeur++;
-                        atout_bot[i] = fort_coeur;
-                     }
-                }else if(nb_carte_carreau[j] != 0){
-                     if(strcmp(joueur[i].carte[j].affichage, "V♦") == 0 || strcmp(joueur[i].carte[j].affichage, "9♦") == 0 || strcmp(joueur[i].carte[j].affichage, "A♦") == 0 || strcmp(joueur[i].carte[j].affichage, "10♦") == 0){
-                        fort_carreau++;
-                        atout_bot[i] = fort_carreau;
-                     }
-                }else if(nb_carte_trefle[j] != 0){
-                     if(strcmp(joueur[i].carte[j].affichage, "V♣") == 0 || strcmp(joueur[i].carte[j].affichage, "9♣") == 0 || strcmp(joueur[i].carte[j].affichage, "A♣") == 0 || strcmp(joueur[i].carte[j].affichage, "10♣") == 0){
-                        fort_trefle++;
-                        atout_bot[i] = fort_trefle;
-                     }
-                }
-            }
-            if(atout_bot[i] == 3 && meilleur_contrat < MISE){
-                meilleur_contrat = MISE;
-                meilleur_score_mini = 80;
-                strcpy(contrat->affichage, "Mise\0");
-                nb_contrat_annonce++;
-                printf("%s mise %d\n", joueur[i].nom, meilleur_score_mini);
-            }else if(atout_bot[i] == 8 && meilleur_contrat < GENERAL){
-                meilleur_contrat = GENERAL;
-                meilleur_score_mini = 500;
-                strcpy(contrat->affichage, "General\0");
-                nb_contrat_annonce++;
-                printf("%s mise %d\n", joueur[i].nom, meilleur_score_mini);
-            }else if(atout_bot[i] > 3 && atout_bot[i] < 8 && meilleur_score_mini < 120){
-                meilleur_contrat = MISE;
-                meilleur_score_mini = 120;
-                strcpy(contrat->affichage, "Mise\0");
-                nb_contrat_annonce++;
-                printf("%s mise %d\n", joueur[i].nom, meilleur_score_mini);
-            }else{
-            printf("%s passe !\n", joueur[i].nom);
-            compteur_passe++;
-            }
-        }
     }
 }
