@@ -1,6 +1,5 @@
-void affichage_enchere(int choix, Joueur *joueur, Contrat *contrat)
+void affichage_enchere(Joueur *joueur, Contrat *contrat, int compteur_passe)
 {
-    int compteur_passe = 0;
     type_contrat meilleur_contrat;
     int meilleur_score_mini = 0;
     int nb_contrat_annonce = 0;
@@ -102,11 +101,11 @@ if(contrat_tmp != 0){
     int coeur;
     int carreau;
 
-    int fort_pique;
-    int fort_coeur;
-    int fort_carreau;
-    int fort_trefle; 
-       
+    int fort_pique = 0;
+    int fort_coeur = 0;
+    int fort_carreau = 0;
+    int fort_trefle = 0;
+
     int atout_bot[4];
         for(int a = 0; a<4; a++){
             atout_bot[a] = 0;
@@ -215,7 +214,6 @@ if(contrat_tmp != 0){
                 printf("%s mise %d\n", joueur[i].nom, meilleur_score_mini);
             }else{
             printf("%s passe !\n", joueur[i].nom);
-            printf("%d\n", atout_bot[i]);
             compteur_passe++;
             }
         }
@@ -243,11 +241,11 @@ if(contrat_tmp != 0){
     int coeur;
     int carreau;
 
-    int fort_pique;
-    int fort_coeur;
-    int fort_carreau;
-    int fort_trefle; 
-       
+    int fort_pique = 0;
+    int fort_coeur = 0;
+    int fort_carreau = 0;
+    int fort_trefle = 0;
+
     int atout_bot[4];
         for(int a = 0; a<4; a++){
             atout_bot[a] = 0;
@@ -356,11 +354,10 @@ if(contrat_tmp != 0){
                 printf("%s mise %d\n", joueur[i].nom, meilleur_score_mini);
             }else{
             printf("%s passe !\n", joueur[i].nom);
-            printf("%d\n", atout_bot[i]);
             compteur_passe++;
             }
         }
-        printf("\nVous choisissez ! Quel contrat lancez-vous ? Tapez 0 pour passer, 1 pour miser, 2 pour capot ou 3 pour generale\n");
+             printf("\nVous choisissez ! Quel contrat lancez-vous ? Tapez 0 pour passer, 1 pour miser, 2 pour capot ou 3 pour generale\n");
         do{
             scanf("%d", &contrat_tmp);
         }
@@ -431,7 +428,6 @@ if(contrat_tmp != 0){
     printf("Vous posez donc un contrat de type %s a %d pts.\n", contrat->affichage, meilleur_score_mini);
 
     }else if(compteur % 4 == 2){
-        do{
         int i, j, k;
     int nb_carte_pique[4];
         for(int a = 0; a<4; a++){
@@ -568,7 +564,6 @@ if(contrat_tmp != 0){
                 printf("%s mise %d\n", joueur[i].nom, meilleur_score_mini);
             }else{
             printf("%s passe !\n", joueur[i].nom);
-            printf("%d\n", atout_bot[i]);
             compteur_passe++;
             }
         }
@@ -745,13 +740,10 @@ if(contrat_tmp != 0){
                 printf("%s mise %d\n", joueur[i].nom, meilleur_score_mini);
             }else{
             printf("%s passe !\n", joueur[i].nom);
-            printf("%d\n", atout_bot[i]);
             compteur_passe++;
             }
         }
-         }while(compteur_passe < 3 || nb_contrat_annonce < 4);
     }else if(compteur % 4 == 3){
-            do{
         int i, j, k;
     int nb_carte_pique[4];
         for(int a = 0; a<4; a++){
@@ -887,7 +879,6 @@ if(contrat_tmp != 0){
                 printf("%s mise %d\n", joueur[i].nom, meilleur_score_mini);
             }else{
             printf("%s passe !\n", joueur[i].nom);
-            printf("%d\n", atout_bot[i]);
             compteur_passe++;
             }
         }
@@ -1063,13 +1054,8 @@ if(contrat_tmp != 0){
                 printf("%s mise %d\n", joueur[i].nom, meilleur_score_mini);
             }else{
             printf("%s passe !\n", joueur[i].nom);
-            printf("%d\n", atout_bot[i]);
             compteur_passe++;
             }
         }
-            }while(compteur_passe < 3 || nb_contrat_annonce < 4);
     }
-}
-
-    
-
+}   
