@@ -47,7 +47,7 @@ case 1 :
     melange(paquet_total);
     initialisation_paquet_total(paquet_total);
     initialisation_joueurs(paquet_total, joueur, nom_joueur);
-    affichage_partie(choix, joueur, &contrat);
+    affichage_enchere(choix, joueur, &contrat);
     break;
 case 2 :
     break;
