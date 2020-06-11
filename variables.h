@@ -1,6 +1,6 @@
 int compteur;
 int choix_menu;
-int choix;
+int compteur_passe;
 
 typedef enum
 {
