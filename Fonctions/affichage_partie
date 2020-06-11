@@ -1,4 +1,4 @@
-void affichage_partie(int choix, Joueur *joueur, Contrat *contrat)
+void affichage_enchere(int choix, Joueur *joueur, Contrat *contrat)
 {
     int compteur_passe = 0;
     type_contrat meilleur_contrat;
