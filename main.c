@@ -48,6 +48,17 @@ case 1 :
     initialisation_paquet_total(paquet_total);
     initialisation_joueurs(paquet_total, joueur, nom_joueur);
     affichage_enchere(choix, joueur, &contrat);
+        
+        while(compteur_passe == 4){
+        compteur_passe = 0;
+        printf("Tout le monde a passé, on recommence !");
+    retour_paquet_total(paquet_total, joueur, nom_joueur);
+    initialisation_joueurs(paquet_total, joueur, nom_joueur);
+    affichage_enchere(joueur, &contrat, compteur_passe);
+    }
+
+    premier_tour(&contrat, joueur, compteur);
+        
     break;
 case 2 :
     break;
