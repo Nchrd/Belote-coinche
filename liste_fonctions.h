@@ -3,6 +3,4 @@ void initialisation_joueurs(Carte *paquet_total, Joueur *joueur, char *nom_joueu
 void melange(Carte *);
 void affichage_contrat(Contrat *contrat);
 void compteur_manche(int compteur);
-void affichage_partie(int choix, Joueur *joueur, Contrat *contrat);
-void enchere_surenchere();
-void valeur_cartes();
+void affichage_enchere(int choix, Joueur *joueur, Contrat *contrat);
