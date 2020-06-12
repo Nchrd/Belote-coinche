@@ -6,7 +6,7 @@ void initialisation_paquet_total(Carte *paquet_total)
     {
         for (j = 1; j < 9; j++)
         {
-            paquet_total[i * 8 + j - 1].atout = i;
+            paquet_total[i * 8 + j - 1].couleur = i;
             strcpy(paquet_total[i * 8 + j - 1].affichage, "\0");
             switch (j)
             {
