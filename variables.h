@@ -14,7 +14,7 @@ typedef enum
 
 struct Carte
 {
-    int atout;
+    int couleur;
     int valeur_atout;
     int valeur_non_atout;
     int valeur_tout_atout;
